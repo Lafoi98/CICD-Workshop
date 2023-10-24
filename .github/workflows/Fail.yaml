@@ -2,8 +2,8 @@ name: Fail.yaml
 on:
   push:
     branches: 
-      - master
-
+      - 'v[0-9]+.[0-9]'
+      
 jobs:
   tasks:
     runs-on: ubuntu-latest

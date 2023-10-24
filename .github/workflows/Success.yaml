@@ -2,7 +2,7 @@ name: Success.yaml
 on: 
   push:
     branches: 
-      - v[0-9].[0-9]
+      - master
 
 jobs:
   build:

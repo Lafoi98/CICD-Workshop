@@ -68,7 +68,7 @@ jobs:
         run: 
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}"
         env:
-          TAGS: v2.1.1:${{github.sha}}
+          TAGS: adlc3-ca:${{github.sha}}
           COSIGN_PRIVATE_KEY: ${{ secrets.MYPRIVATEKEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGNKEY }}
       

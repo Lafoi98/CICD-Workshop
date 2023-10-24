@@ -66,11 +66,11 @@ jobs:
         
       - name: Sign image with a key
         run: |
-          cosign sign --yes --key env://MYPRIVATEKEY "${TAGS}"
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}"
         env:
           TAGS: lafoi98/adlc3-ca:${{github.sha}}
-          MYPRIVATEKEY: ${{ secrets.MYPRIVATEKEY }}
-          COSIGNKEY: ${{ secrets.COSIGNKEY }}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
       
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2

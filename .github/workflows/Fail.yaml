@@ -15,7 +15,7 @@ jobs:
     - name: Check Commit Format
       run:
         commit = $(git log -1 --pretty=%B)
-        if[[$commit == *"#NORUN"*]]; then
+        if [[$commit == *"#NORUN"*]]; then
           exit 1
         fi
 

@@ -1,6 +1,8 @@
 name: Fail.yaml
 on:
-  - push
+  push:
+    #branches: 
+     # - v[0-9].[0-9]
 
 jobs:
   tasks:

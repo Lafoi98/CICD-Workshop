@@ -65,7 +65,7 @@ jobs:
           cosign-release: v2.1.1
         
       - name: Sign image with a key
-        run: 
+        run: |
           cosign sign --yes --key env://MYPRIVATEKEY "${TAGS}"
         env:
           TAGS: lafoi98/adlc3-ca:${{github.sha}}

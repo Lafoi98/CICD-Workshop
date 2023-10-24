@@ -66,7 +66,7 @@ jobs:
         
       - name: Sign image with a key
         run: 
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}"
+          cosign sign --yes --key env://MYPRIVATEKEY "${TAGS}"
         env:
           TAGS: lafoi98/adlc3-ca:${{github.sha}}
           COSIGN_PRIVATE_KEY: ${{ secrets.MYPRIVATEKEY }}

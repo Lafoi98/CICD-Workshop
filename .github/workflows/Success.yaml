@@ -69,8 +69,8 @@ jobs:
           cosign sign --yes --key env://MYPRIVATEKEY "${TAGS}"
         env:
           TAGS: lafoi98/adlc3-ca:${{github.sha}}
-          COSIGN_PRIVATE_KEY: ${{ secrets.MYPRIVATEKEY }}
-          COSIGN_PASSWORD: ${{ secrets.COSIGNKEY }}
+          MYPRIVATEKEY: ${{ secrets.MYPRIVATEKEY }}
+          COSIGNKEY: ${{ secrets.COSIGNKEY }}
       
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2

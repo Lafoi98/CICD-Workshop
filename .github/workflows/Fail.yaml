@@ -12,10 +12,10 @@ jobs:
     - name: Start
       uses: actions/checkout@v4
 
-    - name: Check Commit Format
-      run:
-        commit = $(git log -1 --pretty=%B)
-        if [[$commit == *"#NORUN"*]]; then
+    - name: Check commit message
+      run: |
+        commit=$(git log -1 --pretty=%B)
+        if [[ $commit == *"#NORUN"* ]]; then
         exit 1
         fi
 

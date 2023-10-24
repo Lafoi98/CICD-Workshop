@@ -6,7 +6,7 @@ on:
 
 jobs:
   tasks:
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-lates
 
     steps:
     - name: Start

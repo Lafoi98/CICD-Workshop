@@ -40,7 +40,7 @@ jobs:
     - name: Upload scan report
       uses: MeilCli/slack-upload-file@v3
       with:
-        slack_token: ${{ secrets.KEWEBHOOKUPL }}
+        slack_token: ${{ secrets.KETEST }}
         channel_id: ${{ secrets.KECHANNEL }}
         file_path: 'trivy-results.txt'
         initial_comment: 传递的信息

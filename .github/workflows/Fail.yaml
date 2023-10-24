@@ -16,7 +16,7 @@ jobs:
       run:
         commit = $(git log -1 --pretty=%B)
         if[[$commit == *"#NORUN"*]]; then
-        exit 1
+          exit 1
         fi
 
     - name: Run scanner

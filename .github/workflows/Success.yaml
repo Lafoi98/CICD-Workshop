@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
        
       - name: Check Commit Format
-        run: |
+        run: 
           commit=$(git log -1 --pretty=%B)
           if [[ $名字1 == *"#NORUN"* ]]; then
           exit 1
@@ -65,16 +65,16 @@ jobs:
           cosign-release: ‘你自己的cosign版本’
         
       - name: Sign image with a key
-        run: |
+        run: 
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}"
-          env:
-            TAGS: ‘你自己的cosign版本’:${{github.sha}}
-            COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-            COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        env:
+          TAGS: ‘你自己的cosign版本’:${{github.sha}}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
       
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
-        env:
+        env: 
           SLACK_CHANNEL: 频道
           SLACK_MESSAGE: | 
             Name: 姓名
@@ -82,7 +82,7 @@ jobs:
             *Email*:邮件
             *Git*: URL
             *Image*: URL
-            SLACK_TITLE: 标题
-            SLACK_USERNAME: DipSA 57 CICD
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: 标题
+          SLACK_USERNAME: DipSA 57 CICD
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
               

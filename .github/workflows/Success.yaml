@@ -51,7 +51,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: adlc3-ca:${{github.sha}}
+          tags: lafoi98/adlc3-ca:${{github.sha}}
 #注意在本地做：context: .
 #Digitally sign the image
         
@@ -68,7 +68,7 @@ jobs:
         run: 
           cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}"
         env:
-          TAGS: adlc3-ca:${{github.sha}}
+          TAGS: lafoi/adlc3-ca:${{github.sha}}
           COSIGN_PRIVATE_KEY: ${{ secrets.MYPRIVATEKEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGNKEY }}
       

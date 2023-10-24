@@ -1,0 +1,46 @@
+name: Fail.yaml
+on:
+  push:
+    branches: 
+      - v[0-9].[0-9]
+
+jobs:
+  tasks:
+    runs-on: ubuntu-lastest
+
+    steps:
+    - name: Start
+      uses: actions/checkout@v4
+
+    - name: Check Commit Format
+      run:
+        commit = $(git log -1 --pretty=%B)
+        if[[$commit == *"#NORUN"*]]; then
+        exit 1
+        fi
+
+    - name: Run scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        ignore-unfixed: true
+        format: 'table'
+        output: 'trivy-results.txt'
+        severity: 'HIGH'
+        
+    - name: Post to slack
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: mytest
+        SLACK_MESSAGE: Magic Fantanstic Wangke
+        SLACK_TITLE: 标题
+        SLACK_USERNAME: MyTest
+        SLACK_WEBHOOK: ${{ secrets.KEWEBHOOKUPL}}
+#Upload scan report
+    - name: Upload scan report
+      uses: MeilCli/slack-upload-file@v3
+      with:
+        slack_token: ${{ secrets.KEWEBHOOKUPL }}
+        channel_id: ${{ secrets.KECHANNEL }}
+        file_path: 'trivy-results.txt'
+        initial_comment: 传递的信息

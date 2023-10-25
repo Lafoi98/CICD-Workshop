@@ -1,4 +1,4 @@
-name: Fail.yaml
+name: Workflow.yaml
 on:
   push:
     branches: 
@@ -20,17 +20,17 @@ jobs:
         ignore-unfixed: true
         format: 'table'
         output: 'trivy-results.txt'
-        severity: 'HIGH'
+        severity: 'CRITICAL'
         exit-code: 1
         #HIGH,CRITICAL
-        
+
     - name: Post to slack
       if: failure()
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: ${{ job.status }}
         SLACK_CHANNEL: mytest
-        SLACK_MESSAGE: This is my CA.
+        SLACK_MESSAGE: 'This is my CA.:warning:'
         SLACK_TITLE: ADLC3-CA
         SLACK_USERNAME: MyTest
         SLACK_WEBHOOK: ${{ secrets.KEWEBHOOKUPL}}
@@ -90,6 +90,7 @@ jobs:
       env: 
         SLACK_CHANNEL: mytest
         SLACK_MESSAGE: | 
+          ':beer:'
           Name: Xu Chi
           Matriculation: A0285934N
           *Email*:e1221746@u.nus.edu

@@ -31,14 +31,14 @@ jobs:
         SLACK_COLOR: ${{ job.status }}
         SLACK_MESSAGE: 'This is my CA.:warning:'
         SLACK_TITLE: ADLC3-CA
-        SLACK_WEBHOOK: ${{ secrets.KEWEBHOOKUPL}}
+        SLACK_WEBHOOK: ${{ secrets.CAURL}}
 #Upload scan report
     - name: Upload scan report
       if: failure()
       uses: MeilCli/slack-upload-file@v3
       with:
-        slack_token: ${{ secrets.KETEST }}
-        channel_id: ${{ secrets.KECHANNEL }}
+        slack_token: ${{ secrets.CATOKEN }}
+        channel_id: ${{ secrets.CACHANNEL }}
         file_path: 'trivy-results.txt'
         initial_comment: CA
 
@@ -94,4 +94,4 @@ jobs:
           *Git*: https://github.com/${{github.repository}}
           *Image*: https://hub.docker.com/repository/docker/lafoi98/adlc3-ca
         SLACK_TITLE: ADLC3-CA
-        SLACK_WEBHOOK: ${{ secrets.KEWEBHOOKUPL }}
+        SLACK_WEBHOOK: ${{ secrets.CAURL }}

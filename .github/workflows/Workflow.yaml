@@ -1,0 +1,100 @@
+name: Fail.yaml
+on:
+  push:
+    branches: 
+      - 'v[0-9]+.[0-9]'
+
+jobs:
+  tasks:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.commits[0].message,'#NORUN')}}
+
+    steps:
+    - name: Start
+      uses: actions/checkout@v4
+
+    - name: Run scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        ignore-unfixed: true
+        format: 'table'
+        output: 'trivy-results.txt'
+        severity: 'HIGH'
+        exit-code: 1
+        #HIGH,CRITICAL
+        
+    - name: Post to slack
+      if: failure()
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_CHANNEL: mytest
+        SLACK_MESSAGE: This is my CA.
+        SLACK_TITLE: ADLC3-CA
+        SLACK_USERNAME: MyTest
+        SLACK_WEBHOOK: ${{ secrets.KEWEBHOOKUPL}}
+#Upload scan report
+    - name: Upload scan report
+      if: failure()
+      uses: MeilCli/slack-upload-file@v3
+      with:
+        slack_token: ${{ secrets.KETEST }}
+        channel_id: ${{ secrets.KECHANNEL }}
+        file_path: 'trivy-results.txt'
+        initial_comment: CA
+
+    - name: Checkout
+      uses: actions/checkout@v3
+        
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+        
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+        
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERNAME }}
+        password: ${{ secrets.DOCKERTOKEN }}
+        
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: lafoi98/adlc3-ca:${{github.sha}}
+#注意在本地做：context: .
+#Digitally sign the image
+        
+    - uses: actions/checkout@v3.5.2
+      with:
+        fetch-depth: 1
+        
+    - name: Install Cosign
+      uses: sigstore/cosign-installer@v3.1.1
+      with:
+        cosign-release: v2.1.1
+        
+    - name: Sign image with a key
+      run: |
+        cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}"
+      env:
+          TAGS: lafoi98/adlc3-ca:${{github.sha}}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+      
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env: 
+        SLACK_CHANNEL: mytest
+        SLACK_MESSAGE: | 
+          Name: Xu Chi
+          Matriculation: A0285934N
+          *Email*:e1221746@u.nus.edu
+          *Git*: https://github.com/${{github.repository}}
+          *Image*: https://hub.docker.com/repository/docker/lafoi98/adlc3-ca
+        SLACK_TITLE: ADLC3-CA
+        SLACK_USERNAME: MyTest
+        SLACK_WEBHOOK: ${{ secrets.KEWEBHOOKUPL }}

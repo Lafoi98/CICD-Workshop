@@ -20,7 +20,7 @@ jobs:
         ignore-unfixed: true
         format: 'table'
         output: 'trivy-results.txt'
-        severity: 'CRITICAL'
+        severity: 'HIGH'
         exit-code: 1
         #HIGH,CRITICAL
 
@@ -29,10 +29,8 @@ jobs:
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: ${{ job.status }}
-        SLACK_CHANNEL: mytest
         SLACK_MESSAGE: 'This is my CA.:warning:'
         SLACK_TITLE: ADLC3-CA
-        SLACK_USERNAME: MyTest
         SLACK_WEBHOOK: ${{ secrets.KEWEBHOOKUPL}}
 #Upload scan report
     - name: Upload scan report
@@ -88,7 +86,6 @@ jobs:
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env: 
-        SLACK_CHANNEL: mytest
         SLACK_MESSAGE: | 
           ':beer:'
           Name: Xu Chi
@@ -97,5 +94,4 @@ jobs:
           *Git*: https://github.com/${{github.repository}}
           *Image*: https://hub.docker.com/repository/docker/lafoi98/adlc3-ca
         SLACK_TITLE: ADLC3-CA
-        SLACK_USERNAME: MyTest
         SLACK_WEBHOOK: ${{ secrets.KEWEBHOOKUPL }}
